@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="bundle.js"></script>
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+    <!-- Bootstrap theme -->
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+
+   
+    <title>Portfolio</title>
+</head>
+<body>
+    
+        <nav>
+            <h2 style="font-weight: bold;">ITD108</h2>
+            <ul>
+                <li> <a href="#">HOME</a></li>
+                <li> <a href="#">PROFILE</a></li>
+                <li> <a href="#">GALLERY</a></li>
+                <li> <a href="#">PROJECTS</a></li>
+                <li> <a href="#">CONTACTS</a></li>
+            </ul>
+        </nav>
+
+   
+        <div class="name">
+          
+          
+            
+            <div class="text">
+                <h1> I'm Felomae <span>Anhaw</span> </h1>
+                <p> This is my official personal website highlighting
+                    <br> significant life experiences, hobbies, likes and dislikes.
+                    <br> <b><i>Note: This site is still under construction.</i></b>
+                </p>
+            <br>
+                <a href= "pdf/Anhaw_Resume.pdf" target="_blank">DOWNLOAD PDF COPY</a>
+
+            </div>
+
+            <img src=" images/Picture4.png" id="me">
+        </div>
+
+        <input type="submit" value="Logout" name="logout" id="logout">
+<!--        
+
+        <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js"></script> -->
+
+        
+
+</body>
+</html>
+
+
+<script type="module">
+  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
+
+
+const firebaseConfig = {
+          apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
+          authDomain: "itd108-67333.firebaseapp.com",
+          projectId: "itd108-67333",
+          storageBucket: "itd108-67333.appspot.com",
+          messagingSenderId: "862622261090",
+          appId: "1:862622261090:web:627488e7c4fdbc5b40963b",
+          measurementId: "G-6ENJ0LFSZT"
+        };
+        
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
+const auth = getAuth();
+console.log(app);
+  
+  //----- Logout code start	  
+  document.getElementById("logout").addEventListener("click", function() {
+    signOut(auth).then(() => {
+      // Sign-out successful.
+      console.log('Sign-out successful.');
+      alert('Sign-out successful.');
+      document.getElementById('logout').style.display = 'none';
+    }).catch((error) => {
+      // An error happened.
+      console.log('An error happened.');
+    });		  		  
+  });
+  //----- End
+  </script>
+
