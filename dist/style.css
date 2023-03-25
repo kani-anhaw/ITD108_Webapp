@@ -98,7 +98,7 @@ form .text-field{
 }
 
 #register:hover, #login:hover{
-    border-color: #2691d9;
+    border-color: #c58643;
     transition: .3s;
 }
 
