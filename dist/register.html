@@ -74,6 +74,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
 import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
           apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
@@ -87,11 +89,14 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
+const db = getFirestore(app);
 console.log(app);
   
 document.getElementById("register").addEventListener("click", function() {
   var email =  document.getElementById("email").value;
   var password = document.getElementById("password").value;
+  var name =  document.getElementById("name").value;
+  var surname = document.getElementById("surname").value;
 
   createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
     const user = userCredential.user;
@@ -102,7 +107,6 @@ document.getElementById("register").addEventListener("click", function() {
   .catch((error) => {
     const errorCode = error.code;
     const errorMessage = error.message;
-    // ..
     console.log(errorMessage);
     alert(error);
   });		  		  

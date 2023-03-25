@@ -56,6 +56,8 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
+import { getFirestore } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+
 
 const firebaseConfig = {
           apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
@@ -71,6 +73,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
+const db = getFirestore(app);
 console.log(app);
   
   //----- Logout code start	  
