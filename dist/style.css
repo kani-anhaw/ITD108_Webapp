@@ -4,7 +4,8 @@ body{
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
-    background-color: rgb(87, 155, 211);
+    background-color: #c58643;
+    /* background-color: rgb(87, 155, 211); */
     height: 100vh;
     overflow: hidden;
     display: flex;
@@ -66,7 +67,7 @@ form .text-field{
     left: 0;
     width: 100%;
     height: 2px;
-    background: #2691d9;
+    background: #c58643;
     transition: .2s;
 }
 /*  */
@@ -74,7 +75,7 @@ form .text-field{
 .text-field input:focus ~ label,
 .text-field input:valid ~ label{
     top: -5px;
-    color: #2691d9;
+    color: #c58643;
 }
 
 .text-field input:focus ~ span::before,
@@ -88,7 +89,7 @@ form .text-field{
     width: 100%;
     height: 50px;
     border: 1px solid;
-    background: #2691d9;
+    background: #c58643;
     border-radius: 25px;
     font-size: 18px;
     color: white;
@@ -110,7 +111,7 @@ form .text-field{
 }
 
 .sign-up a{
-    color: #2691d9;
+    color:#c58643;
     text-decoration: none;
 }
 
@@ -123,7 +124,7 @@ form .text-field{
     height: 1px;
     width: 100%;
     margin: 36px 0;
-    background-color: #2691d9;
+    background-color: #c58643;
 }
 
 .line::before{
@@ -210,7 +211,7 @@ form .text-field{
     left: 0;
     width: 100%;
     height: 2px;
-    background: #2691d9;
+    background: #c58643;
     transition: .2s;
 }
 /*  */
@@ -218,7 +219,7 @@ form .text-field{
 .details .text-field input:focus ~ label,
 .details .text-field input:valid ~ label{
     top: -5px;
-    color: #2691d9;
+    color: #c58643;
 }
 
 .details .text-field input:focus ~ span::before,
@@ -262,6 +263,6 @@ form .text-field{
 .input_box input:focus ~ .label,
 .input_box input:valid ~ .label{
     top: -3px;
-    color: #2691d9;
+    color: #c58643;
 }
 

@@ -1,82 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Registration Form</title>
-
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="style.css"> 
+    <script defer src="bundle.js"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
-  <link rel="stylesheet" href="style.css">
+	<!-- Bootstrap theme -->
+	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
 
-    <script defer src="./bundle.js"></script>
+    
+    <title>Login Form</title>
 </head>
 <body>
 
-  <div class="contain_reg">	
-    <h1> Create Account</h1>
-    <form method="get" action="signin.html">
+    <div class="contain">
+        <h1> Sign In</h1>
+            <form name="login_form" id="login_form" method="post" action="home.html" enctype="multipart/form-data" >
+                
+                <div class="text-field">
+                    <input type="email" required name="login_email" id="login_email">
+                    <span></span>
+                    <label>Email</label>
+                </div>
 
-  
-        <div class="details">
-        <div class="input_box">
-          <div class="label">Name</div>
-          <input type="text" name="name" id="name" placeholder="Enter your name">
-        </div>
+                <div class="text-field">
+                    <input type="password" required name="login_password" id="login_password">
+                    <span></span>
+                    <label>Password</label>
+                </div>
+                
+                <button type="button" id="login" name="login">Login</button>
+                <!-- <input type="submit" value="Login" name="login" id="login"> -->
+                <div class="sign-up">
+                    Not a member? <a href="register.html">Create account</a>
+                </div>
+<!-- 
+                <div class="line"></div> -->
 
-        <div class="input_box">
-          <div class="label">Surname</div>
-          <input type="text" name="surname" id="surname" placeholder="Enter your surname">
-        </div>
-
-
-          <div class="input_box">
-            <div class="label">Email</div>
-            <input type="email" name="email" id="email" placeholder="Enter your email">
-          </div>
-          
-
-            <div class="text-field">
-                <input type="password" required id="password" name="password">
-                <span></span> 
-                <label>Password</label>
-            </div>
-  
-            <div class="text-field">
-                <input type="password" required id="con_pass">
-                <span></span>
-                <label>Confirm password</label>
-            </div>
-         
-    
-
-          <div class="sign-up" ">
-            Already a member? <a href="signin.html">Sign in</a>
-        </div>
-          
-      <!-- </div>end col -->
-
-      <button type="button" id="register" name="register">Register</button>
-      </form>
-      
-
-    <!-- <a href="signin.html"><h2>Signin</h2></a> -->
-
-  </div>
-  </div>
-
-    
+            </form>
+    </div>
 </body>
 </html>
 
-<script type="module">
 
-// Import the functions you need from the SDKs you need
+<script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
-
+import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
 
 const firebaseConfig = {
           apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
@@ -85,72 +59,29 @@ const firebaseConfig = {
           storageBucket: "itd108-67333.appspot.com",
           messagingSenderId: "862622261090",
           appId: "1:862622261090:web:627488e7c4fdbc5b40963b",
-          measurementId: "G-6ENJ0LFSZT"
-        };
+          measurementId: "G-6ENJ0LFSZT"};
         
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
 console.log(app);
-
-//----- New Registration code start	  
-document.getElementById("register").addEventListener("click", function() {
-  var email =  document.getElementById("email").value;
-  var password = document.getElementById("password").value;
-  
-  //For new registration
-  createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    console.log(user);
-    alert("Registration successful!!");
-    window.location.href = "signin.html";
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    // ..
-    console.log(errorMessage);
-    alert(error);
-  });		  		  
-});
-//----- End
-
-//----- Login code start	  
-document.getElementById("login").addEventListener("click", function() {
-  var email =  document.getElementById("login_email").value;
-  var password = document.getElementById("login_password").value;
-
-  signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-    // Signed in 
-    const user = userCredential.user;
-    console.log(user);
-    alert(user.email+" Login successfully!!!");
-    document.getElementById('logout').style.display = 'block';
-    // ...
-  })
-  .catch((error) => {
-    const errorCode = error.code;
-    const errorMessage = error.message;
-    console.log(errorMessage);
-    alert(errorMessage);
-  });		  		  
-});
-//----- End
-
-//----- Logout code start	  
-document.getElementById("logout").addEventListener("click", function() {
-  signOut(auth).then(() => {
-    // Sign-out successful.
-    console.log('Sign-out successful.');
-    alert('Sign-out successful.');
-    document.getElementById('logout').style.display = 'none';
-  }).catch((error) => {
-    // An error happened.
-    console.log('An error happened.');
-  });		  		  
-});
-
-</script>
+      
+      document.getElementById("login").addEventListener("click", function() {
+        var email =  document.getElementById("login_email").value;
+        var password = document.getElementById("login_password").value;
+      
+        signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
+          // Signed in 
+          const user = userCredential.user;
+          console.log(user);
+          alert(user.email+" Login successfully!!!");
+          window.location.href = "home.html";
+})
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.log(errorMessage);
+          alert(errorMessage);
+        });		  		  
+      });
+      </script>

@@ -100,7 +100,7 @@ span{
 /* login || Register */
 
 
-.text a:hover{
-    background-color: #212121;
+.name .text a:hover{
+    border-color: #212121;
     transition: .3s;
 }

@@ -51,12 +51,11 @@
 </html>
 
 
-<script type="module">
-  
+<script type="module">  
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
-
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
 
 const firebaseConfig = {
           apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
@@ -81,6 +80,8 @@ console.log(app);
       console.log('Sign-out successful.');
       alert('Sign-out successful.');
       document.getElementById('logout').style.display = 'none';
+      window.location.href = "signin.html";
+
     }).catch((error) => {
       // An error happened.
       console.log('An error happened.');
