@@ -7,7 +7,7 @@
 
 body{
     /* align-items: center; */
-    background-color: #d38d42;
+    background-color: rgb(87, 155, 211);
 }
 
 /* .hero{
@@ -66,7 +66,7 @@ nav ul li a:after{
 }
 
 span{
-    color: #c58643;
+    color: rgb(99, 161, 212);
     font-weight: 50px;
 }
 
