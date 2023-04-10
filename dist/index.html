@@ -4,86 +4,66 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="style.css"> 
-    <script defer src="bundle.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
-	<!-- Bootstrap theme -->
-	<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
-
-    
-    <title>Login Form</title>
+    <script defer src="./bundle.js"></script>
+    <!-- <script src="src/index.js"></script> -->
+    <title>Create Data</title>
 </head>
 <body>
-
-    <div class="contain">
-        <h1> Sign In</h1>
-            <form name="login_form" id="login_form" method="post" action="home.html" enctype="multipart/form-data" >
-                
-                <div class="text-field">
-                    <input type="email" required name="login_email" id="login_email">
-                    <span></span>
-                    <label>Email</label>
-                </div>
-
-                <div class="text-field">
-                    <input type="password" required name="login_password" id="login_password">
-                    <span></span>
-                    <label>Password</label>
-                </div>
-                
-                <button type="button" id="login" name="login">Login</button>
-                <!-- <input type="submit" value="Login" name="login" id="login"> -->
-                <div class="sign-up">
-                    Not a member? <a href="register.html">Create account</a>
-                </div>
-<!-- 
-                <div class="line"></div> -->
-
-            </form>
-    </div>
+    <h2>Learn Firebase Storage</h2>
+    <button class="save"> Save</button>
+    <button class="get-data"> Get Data</button>
 </body>
 </html>
 
-
 <script type="module">
+
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+import { getFirestore, connectFirestoreEmulator, collection, addDoc, query, getDocs } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+
+
+  // import { initializeApp } from "firebase/app";
+  // import { getAuth } from "firebase/auth";
+  // import { getFirestore, connectFirestoreEmulator, collection, addDoc, query, getDocs } from "firebase/firestore";
+
 
 const firebaseConfig = {
-          apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
-          authDomain: "itd108-67333.firebaseapp.com",
-          projectId: "itd108-67333",
-          storageBucket: "itd108-67333.appspot.com",
-          messagingSenderId: "862622261090",
-          appId: "1:862622261090:web:627488e7c4fdbc5b40963b",
-          measurementId: "G-6ENJ0LFSZT"};
-        
+  apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
+  authDomain: "itd108-67333.firebaseapp.com",
+  projectId: "itd108-67333",
+  storageBucket: "itd108-67333.appspot.com",
+  messagingSenderId: "862622261090",
+  appId: "1:862622261090:web:627488e7c4fdbc5b40963b",
+  measurementId: "G-6ENJ0LFSZT"
+};
+
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-const auth = getAuth();
-const db = getFirestore(app);
-console.log(app);
-      
-      document.getElementById("login").addEventListener("click", function() {
-        var email =  document.getElementById("login_email").value;
-        var password = document.getElementById("login_password").value;
-      
-        signInWithEmailAndPassword(auth, email, password).then((userCredential) => {
-          // Signed in 
-          const user = userCredential.user;
-          console.log(user);
-          alert(user.email+" Login successfully!!!");
-          window.location.href = "home.html";
+// const auth = getAuth();
+const db = getFirestore();
+connectFirestoreEmulator(db, 'localhost', 8080);
+// console.log(app)
+
+const saveBtn = document.querySelector(".save")
+saveBtn.addEventListener("click", async () =>{
+try {
+  const collectionRef = collection(db, "user")
+  const newUser = await addDoc(collectionRef,{
+    name: "Felomae",
+    surname: "Anhaw",
+    email: "felomae.anhaw@gmail.com"
+  })
+  console.log(`Create new user: ${newUser.id}`)
+} catch (error) {
+  console.log(error)
+}
 })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.log(errorMessage);
-          alert(errorMessage);
-        });		  		  
-      });
-      </script>
+
+const getDataBtn = document.querySelector(".get-data")
+getDataBtn.addEventListener("click", async () =>{
+  const q = query(collection(db,"user"))
+  const user = await getDocs(q)
+  user.forEach((user) => {
+    console.log(user.data())
+  })
+})
+</script>

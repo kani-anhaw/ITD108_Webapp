@@ -16,7 +16,7 @@
 
   <div class="contain_reg">	
     <h1> Create Account</h1>
-    <form method="get" action="signin.html">
+    <form method="post" action="signin.html">
 
   
         <div class="details">
@@ -52,16 +52,14 @@
     
 
           <div class="sign-up" ">
-            Already a member? <a href="index.html">Sign in</a>
+            Already a member? <a href="signin.html">Sign in</a>
         </div>
           
       <!-- </div>end col -->
 
-      <button type="button" id="register" name="register">Register</button>
+      <button type="button" class="register" id="register" name="register">Register</button>
       </form>
       
-
-    <!-- <a href="signin.html"><h2>Signin</h2></a> -->
 
   </div>
   </div>
@@ -71,11 +69,13 @@
 </html>
 
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
-import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
-
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-analytics.js";
+import { getAuth, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
+import { getFirestore, connectFirestoreEmulator, addDoc, collection } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-firestore.js";
+// import { initializeApp } from "firebase/app";
+// import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+// import { getFirestore, connectFirestoreEmulator, addDoc, collection } from "firebase/firestore";
 
 const firebaseConfig = {
           apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
@@ -85,24 +85,27 @@ const firebaseConfig = {
           messagingSenderId: "862622261090",
           appId: "1:862622261090:web:627488e7c4fdbc5b40963b",
           measurementId: "G-6ENJ0LFSZT"};
-        
+      
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
-const db = getFirestore(app);
+// const db = getFirestore(app);
+// connectFirestoreEmulator(db, 'localhost', 8080);
 console.log(app);
-  
-document.getElementById("register").addEventListener("click", function() {
+
+//AUTHENTICATION
+
+document.getElementById("register").addEventListener("click", async function() {
   var email =  document.getElementById("email").value;
   var password = document.getElementById("password").value;
-  var name =  document.getElementById("name").value;
-  var surname = document.getElementById("surname").value;
+  // var name =  document.getElementById("name").value;
+  // var surname = document.getElementById("surname").value;
 
   createUserWithEmailAndPassword(auth, email, password).then((userCredential) => {
     const user = userCredential.user;
     console.log(user);
     alert("Registration successful!!");
-    window.location.href = "index.html";
+    window.location.href = "signin.html";
   })
   .catch((error) => {
     const errorCode = error.code;
@@ -111,4 +114,5 @@ document.getElementById("register").addEventListener("click", function() {
     alert(error);
   });		  		  
 });
- </script>
+
+</script>

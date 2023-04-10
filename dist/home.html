@@ -53,10 +53,13 @@
 
 <script type="module">  
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-analytics.js";
-import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
-import { getFirestore } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-analytics.js";
+import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
+import { getFirestore, connectFirestoreEmulator, addDoc, collection } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-firestore.js";
+// import { initializeApp } from "firebase/app";
+// import { getAuth, signOut } from "firebase/auth";
+// import { getFirestore, collection, addDoc, connectFirestoreEmulator } from "firebase/firestore";
 
 
 const firebaseConfig = {
@@ -73,8 +76,10 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 const auth = getAuth();
-const db = getFirestore(app);
+const db = getFirestore();
+connectFirestoreEmulator(db, 'localhost', 8080);
 console.log(app);
+      
   
   //----- Logout code start	  
   document.getElementById("logout").addEventListener("click", function() {
