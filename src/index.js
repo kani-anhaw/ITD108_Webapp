@@ -1,8 +1,9 @@
 
 
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
+import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import { getFirestore, collection, addDoc, connectFirestoreEmulator, query, getDocs } from "firebase/firestore";
+import { getStorage, connectStorageEmulator, ref, uploadBytes, uploadString, getDownloadUrl} from "firebase/storage"
 
 
 const firebaseConfig = {
@@ -10,6 +11,7 @@ const firebaseConfig = {
   authDomain: "itd108-67333.firebaseapp.com",
   projectId: "itd108-67333",
   storageBucket: "itd108-67333.appspot.com",
+  // storageBucket: "learning-cloud-storage",
   messagingSenderId: "862622261090",
   appId: "1:862622261090:web:627488e7c4fdbc5b40963b",
   measurementId: "G-6ENJ0LFSZT"
@@ -18,31 +20,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 // const analytics = getAnalytics(app);
-const auth = getAuth();
+const auth = getAuth(app);
 const db = getFirestore();
 connectFirestoreEmulator(db, 'localhost', 8080);
+const storage = getStorage();
+connectStorageEmulator(storage, "localhost", 9199)
 console.log(app)
-
-// const saveBtn = document.querySelector(".save")
-// saveBtn.addEventListener("click", async () =>{
-// try {
-//   const collectionRef = collection(db, "user")
-//   const newUser = await addDoc(collectionRef,{
-//     name: "Felomae",
-//     surname: "Anhaw",
-//     email: "felomae.anhaw@gmail.com"
-//   })
-//   console.log(`Create new user: ${newUser.id}`)
-// } catch (error) {
-//   console.log(error)
-// }
-// })
-
-// const getDataBtn = document.querySelector(".get-data")
-// getDataBtn.addEventListener("click", async () =>{
-//   const q = query(collection(db,"user"))
-//   const user = await getDocs(q)
-//   user.forEach((user) => {
-//     console.log(user.data())
-//   })
-// })

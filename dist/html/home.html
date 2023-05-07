@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script defer src="bundle.js"></script>
-    <link rel="stylesheet" href="style1.css">
+    <script defer src="../bundle.js"></script>
+    <link rel="stylesheet" href="../css/style1.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
    
@@ -19,7 +19,7 @@
                 <li> <a href="#">HOME</a></li>
                 <li> <a href="#">PROFILE</a></li>
                 <li> <a href="#">GALLERY</a></li>
-                <li> <a href="#">PROJECTS</a></li>
+                <li> <a href="projects/project.html">PROJECTS</a></li>
                 <li> <a href="#">CONTACTS</a></li>
             </ul>
         </nav>
@@ -36,11 +36,11 @@
                     <br> <b><i>Note: This site is still under construction.</i></b>
                 </p>
             <br>
-                <a href= "etc/Anhaw_Resume.pdf" target="_blank">DOWNLOAD PDF COPY</a>
+                <a href= "../etc/Anhaw_Resume.pdf" target="_blank">DOWNLOAD PDF COPY</a>
 
             </div>
 
-            <img src="etc/pic.jpg" id="me">
+            <img src="../etc/pic.jpg" id="me">
         </div>
 
         <input type="submit" value="Logout" name="logout" id="logout">
@@ -57,9 +57,7 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/9.19.0/firebas
 import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-analytics.js";
 import { getAuth, signOut } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-auth.js";
 import { getFirestore, connectFirestoreEmulator, addDoc, collection } from "https://www.gstatic.com/firebasejs/9.19.0/firebase-firestore.js";
-// import { initializeApp } from "firebase/app";
-// import { getAuth, signOut } from "firebase/auth";
-// import { getFirestore, collection, addDoc, connectFirestoreEmulator } from "firebase/firestore";
+
 
 
 const firebaseConfig = {
@@ -88,7 +86,7 @@ console.log(app);
       console.log('Sign-out successful.');
       alert('Sign-out successful.');
       document.getElementById('logout').style.display = 'none';
-      window.location.href = "index.html";
+      window.location.href = "../index.html";
 
     }).catch((error) => {
       // An error happened.

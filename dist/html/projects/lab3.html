@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script defer src="/dist/bundle.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <!-- <script src="src/index.js"></script> -->
+    <title>Create Data</title>
+
+    <style>
+      .labs{
+        display:inline-block;
+        width: 150px;
+      }
+    </style>
+
+
+  </head>
+<body>
+    <h2>Learn Firebase Storage</h2>
+    <button class="add"> Add</button>
+    <button class="get-data"> Get Data</button>
+    <button class="change-data"> Change Data</button>
+    <button class="delete-data"> Delete Data</button>
+
+    <br><br>
+
+    <div class="attributes">
+      <div class="input-attributes">
+          <div class="label">Country</div>
+          <input type="text" name="attrib1" id="attrib1" placeholder="Enter Country">
+      </div>
+
+      <div class="input-attributes">
+          <div class="label">Year</div>
+          <input type="number" name="attrib2" id="attrib2" placeholder="Enter Year">
+      </div>
+
+      <div class="input-attributes">
+          <div class="label">Status</div>
+          <input type="text" name="attrib3" id="attrib3" placeholder="Enter Status">
+      </div>
+
+      <div class="input-attributes">
+          <div class="label">Life Expectancy</div>
+          <input type="number" name="attrib4" id="attrib4" placeholder="Enter Life Expectancy">
+      </div>
+
+      <div class="input-attributes">
+          <div class="label">Population</div>
+          <input type="number" name="attrib5" id="attrib5" placeholder="Enter Population">
+      </div>
+  </div>
+
+  <h5> <a href="project.html">EXIT</a></h5>
+
+ <br> <hr>
+<div class="container w-75">
+  <table class="table">
+    <thread>
+      <th>No.</th>
+      <th>Country</th>
+      <th>Year</th>
+      <th>Status</th>
+      <th>Life Expectancy</th>
+      <th>Population</th>
+      <th>Ctrl Panel</th>
+      
+    </thread>
+    <tbody id="tbody1"></tbody>
+  </table>
+
+</div>
+
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="staticBackdropLabel">Modify</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <label class = 'labs'> Country</label>
+        <input type="text" id="countryEd"> <br>
+
+        <label class = 'labs'> Year</label>
+        <input type="number" id="yearEd"> <br>
+
+        <label class = 'labs'> Status</label>
+        <input type="text" id="statEd"> <br>
+
+        <label class = 'labs'> Life Expectancy</label>
+        <input type="number" id="lfEd"> <br>
+
+        <label class = 'labs'> Population</label>
+        <input type="number" id="popEd"> <br>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" id = "savebutton" class="btn btn-secondary" data-bs-dismiss="modal" onclick="SaveButton()">Save</button>
+       </div>
+    </div>
+  </div>
+</div>
+
+
+</body>
+</html>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
+import { getFirestore, connectFirestoreEmulator, collection, addDoc, query, getDocs, getDoc, setDoc, doc, deleteDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
+  authDomain: "itd108-67333.firebaseapp.com",
+  projectId: "itd108-67333",
+  storageBucket: "itd108-67333.appspot.com",
+  messagingSenderId: "862622261090",
+  appId: "1:862622261090:web:627488e7c4fdbc5b40963b",
+  measurementId: "G-6ENJ0LFSZT"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+// connectFirestoreEmulator(db, 'localhost', 8080);
+
+
+//------------------------------------ Add Data ----------------------------//
+
+const AddBtn = document.querySelector(".add")
+AddBtn.addEventListener("click", async () =>{
+try {
+  const collectionRef = collection(db, "user")
+  const newUser = await addDoc(collectionRef,{
+
+    country: document.getElementById("attrib1").value,
+    year: document.getElementById("attrib2").value,
+    status: document.getElementById("attrib3").value,
+    life_expectancy: document.getElementById("attrib4").value,
+    population: document.getElementById("attrib5").value,
+
+  })
+  console.log(`Create new user: ${newUser.id}`)
+} catch (error) {
+  console.log(error)
+}
+})
+
+//--------------------------------------------------------------------------------//
+
+
+const getDataBtn = document.querySelector(".get-data")
+getDataBtn.addEventListener("click", async () =>{
+  const q = query(collection(db,"user"))
+  const user = await getDocs(q)
+  user.forEach((doc) => {
+    console.log(doc.data().year)
+  })
+})
+
+//-------------------------------------Populate the Table ------------------------------//
+var userNo =0;
+var userList = [];
+var tbody = document.getElementById('tbody1');
+
+
+function AddItemToTable(country, year, status, life_expectancy, population, id){
+  var trow = document.createElement('tr');
+  var td1 = document.createElement('td');
+  var td2 = document.createElement('td');
+  var td3 = document.createElement('td');
+  var td4 = document.createElement('td');
+  var td5 = document.createElement('td');
+  var td6 = document.createElement('td');
+
+  td1.innerHTML = ++userNo;
+  td2.innerHTML = country;
+  td3.innerHTML = year;
+  td4.innerHTML = status;
+  td5.innerHTML = life_expectancy;
+  td6.innerHTML = population;
+  userList.push([country, year, status, life_expectancy, population, id]);
+
+  trow.appendChild(td1);
+  trow.appendChild(td2);
+  trow.appendChild(td3);
+  trow.appendChild(td4);
+  trow.appendChild(td5);
+  trow.appendChild(td6);
+
+  var ControlDiv = document.createElement('div');
+  
+  ControlDiv.innerHTML = '<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onclick="FillTboxes(' + userNo + ')">Edit</button>';
+  ControlDiv.innerHTML += '<button type="button" class="btn btn-primary ml-5"  onclick="DelButt(\'' + id + '\')">Delete</button>';
+
+  trow.appendChild(ControlDiv);
+  tbody.appendChild(trow);
+
+}
+
+function populateTableList(UserDocList){
+  userNo=0;
+  tbody.innerHTML="";
+  UserDocList.forEach(element => {
+    AddItemToTable(element.country, element.year, element.status, element.life_expectancy, element.population, element.id);
+
+  })
+}
+
+function GetAllDataRealtime(){
+  const q = query(collection(db, "user"))
+  const list = onSnapshot(q, (querySnapshot) => {
+    var userList = [];
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      userList.push({...data, id: doc.id}); // Add the id field to the object
+      console.log(doc.id)
+    })
+    populateTableList(userList)
+  })
+}
+
+window.onload = GetAllDataRealtime;
+
+//--------------------------------------------------------------------------------//
+
+var edCountry = document.getElementById('countryEd');
+var edYear = document.getElementById('yearEd');
+var edStatus = document.getElementById('statEd');
+var edLF = document.getElementById('lfEd');
+var edPopulation = document.getElementById('popEd');
+
+window.FillTboxes = function(id) {
+  --id;
+  id = parseInt(id);
+  edCountry.value = userList[id][0];
+  edYear.value = userList[id][1];
+  edStatus.value = userList[id][2];
+  edLF.value = userList[id][3];
+  edPopulation.value = userList[id][4];
+
+  // Update the dataset.id attribute of the save button with the new id value
+  EditBtn.dataset.id = id;
+};
+
+
+
+// Create the event listener for the save button once, outside the FillTboxes function
+const EditBtn = document.querySelector("#savebutton");
+EditBtn.addEventListener("click", async () => {
+  try {
+    const id = parseInt(EditBtn.dataset.id);
+    const docRef = doc(db, "user", id.toString());
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      await setDoc(docRef, {
+        country: edCountry.value,
+        year: edYear.value,
+        status: edStatus.value,
+        life_expectancy: edLF.value,
+        population: edPopulation.value,
+      });
+
+      console.log(docRef.id);
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
+
+// var edCountry = document.getElementById('countryEd');
+// var edYear = document.getElementById('yearEd');
+// var edStatus = document.getElementById('statEd');
+// var edLF = document.getElementById('lfEd');
+// var edPopulation = document.getElementById('popEd');
+
+// window.FillTboxes = function(id) {
+//   id--;
+//   edCountry.value = userList[id][0];
+//   edYear.value = userList[id][1];
+//   edStatus.value = userList[id][2];
+//   edLF.value = userList[id][3];
+//   edPopulation.value = userList[id][4];
+
+//   try {
+//     const EditBtn = document.querySelector("#savebutton");
+//     EditBtn.addEventListener("click", async () => {
+//       const docRef = doc(db, "user", id.toString());
+//       const docSnap = await getDoc(docRef);
+//       if (docSnap.exists()) {
+//         await setDoc(docRef, {
+//           country: edCountry.value,
+//           year: edYear.value,
+//           status: edStatus.value,
+//           life_expectancy: edLF.value,
+//           population: edPopulation.value,
+//         });
+
+//         setData(data.filter((item) => item.id !== id));
+//         console.log(docRef.id);
+//       }
+//     });
+//   } catch (err) {
+//     console.log(err);
+//   }
+// }
+
+
+// window.FillTboxes = function(id) {
+//   --id;
+//   edCountry.value = userList[id][0];
+//   edYear.value = userList[id][1];
+//   edStatus.value = userList[id][2];
+//   edLF.value = userList[id][3];
+//   edPopulation.value = userList[id][4];
+
+// try{
+//   const EditBtn = document.querySelector("#savebutton")
+//   EditBtn.addEventListener("click", async () =>{
+//     const docRef = doc(db, "user", id);
+//     const docSnap = await getDoc(docRef);
+//     if (docSnap.exists()) {
+//       await setDoc(docRef);
+//       setData(data.filter((item)=> item.id !==id)),{
+//         country: edCountry.value,
+//         year: edYear.value,
+//         status: edStatus.value,
+//         life_expectancy: edLF.value,
+//         population: edPopulation.value,
+//       }
+
+//       console.log(doc.id);
+//     }})
+//     } catch(err){
+//         console.log(err)}
+ 
+//     }
+
+//-------------------------Delete Data-----------------//
+window.DelButt = async function(id) {
+  const docRef = doc(db, "user", id);
+  const docSnap = await getDoc(docRef);
+  if (docSnap.exists()) {
+    await deleteDoc(docRef);
+    setData(data.filter((item)=> item.id !==id));
+    console.log(doc.id)
+  } else {
+    console.log("Document does not exist");
+    // console.log(doc.id)
+  }
+}
+//-------------------------------------------------//
+
+</script>
+
+
+
+
+
+
+
+
+

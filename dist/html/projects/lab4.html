@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script defer src="./bundle.js"></script> -->
+    <script defer src="/dist/bundle.js"></script>
+    <!-- <script src="src/index.js"></script> -->
+    <title>Upload & Download</title>
+</head>
+<body>
+    <h2>Learn Firebase Storage</h2>
+    <button class="upload">Upload</button>
+    <button class="download">Download</button>
+    <button class="meta">Get Metadata</button>
+    <button class="umeta">Update Metadata</button>
+    <button class="list">List Metadata</button>
+    <button class="delete">Delete Metadata</button>
+
+    <br>
+    <h3> <a href="project.html">EXIT</a></h3>
+</body>
+</html>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
+import { getStorage, connectStorageEmulator, ref, uploadBytes, uploadString, getDownloadURL,
+getMetadata, updateMetadata, list, deleteObject} from "https://www.gstatic.com/firebasejs/9.18.0/firebase-storage.js";
+// import { getFirestore, connectFirestoreEmulator, collection, addDoc, query, getDocs } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAmcVWoiOB3esn01BajQgz2B5zCb-KvSvA",
+  authDomain: "itd108-67333.firebaseapp.com",
+  projectId: "itd108-67333",
+  storageBucket: "itd108-67333.appspot.com",
+  messagingSenderId: "862622261090",
+  appId: "1:862622261090:web:627488e7c4fdbc5b40963b",
+  measurementId: "G-6ENJ0LFSZT"
+};
+
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+// const analytics = getAnalytics(app);
+// const auth = getAuth();
+// const db = getFirestore();
+// connectFirestoreEmulator(db, 'localhost', 8080);
+const storage = getStorage();
+connectStorageEmulator(storage, "localhost", 9199)
+// console.log(app)
+
+const storageTxt = ref(storage, "storage.txt");
+const notesFolder = ref(storage, "notes");
+const newTxtInSubfolder = ref(notesFolder, "newText.txt");
+const shortcutWay = ref(storage, "another-notes/newNewText.txt");
+const anotherText = ref(notesFolder, "anotherText.txt")
+
+const upload = document.querySelector('.upload')
+upload.addEventListener('click', () =>{
+    const bytes = new Uint8Array([0x48, 0x65, 0x6c, 0x6c,
+    0x6f, 0x2c, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21])
+
+    uploadBytes(storageTxt, bytes) .then((snapshot) =>{
+        console.log('Uploaded an array!');
+    })
+    
+    const newTextFile  = new File(["Hello", " ", "World!"], "newTextFile.txt")
+    uploadBytes(newTxtInSubfolder, newTextFile).then((snapshot)=>{
+        console.log('Uploaded a file from a buffer')
+    })
+
+    const message = "Hello World!"
+    uploadString(shortcutWay, message).then((snapshot)=>{
+        console.log('Uploaded from String!')
+    })
+
+    uploadString(anotherText, message).then((snapshot) =>{
+        console.log('Uploaded from String again!')
+    })
+})
+
+
+const downloadBtn = document.querySelector('.download')
+downloadBtn.addEventListener('click', () => {
+    getDownloadURL(storageTxt).then((url) =>{
+        console.log(`Download the file at: ${url}`)
+    })
+
+})
+
+
+const metaBtn = document.querySelector('.meta')
+metaBtn.addEventListener('click', () => {
+    getMetadata(storageTxt).then((metadata) =>{
+        console.log(metadata)
+    })
+})
+
+getMetadata(storageTxt).then((metadata) =>{
+    console.log(metadata)
+})
+
+const updataMetaBtn = document.querySelector('.umeta')
+updataMetaBtn.addEventListener('click', () =>{
+    const newMeta ={
+        contentLanguage: 'English',
+
+    }
+
+
+    updateMetadata(storageTxt, newMeta).then((updatedMeta) => {
+        console.log(updatedMeta)
+    })
+})
+
+
+const listBtn = document.querySelector('.list')
+listBtn.addEventListener('click', () => {
+    list(notesFolder, { maxResults: 1}).then((response) =>{
+        console.log('First Page')
+        response.items.forEach((itemRef) => {
+            console.log(itemRef)
+        });
+
+        if(response.nextPageToken){
+            list(notesFolder, {
+                maxResults: 1,
+                pageToken: response.nextPageToken
+            }).then((response2)=>{
+                console.log('Second Page')
+                response2.items.forEach((itemRef) => {
+                    console.log(itemRef)
+                })
+            })
+
+        }
+    })
+})
+
+const deleteBtn = document.querySelector('.delete');
+deleteBtn.addEventListener('click', () =>{
+    deleteObject(shortcutWay).then(()=>{
+        console.log("Successfully Deleted!")
+    })
+})
+
+
+
+
+
+
+
+
+
+
+
+
+// const saveBtn = document.querySelector(".save")
+// saveBtn.addEventListener("click", async () =>{
+// try {
+//   const collectionRef = collection(db, "user")
+//   const newUser = await addDoc(collectionRef,{
+//     name: "Felomae",
+//     surname: "Anhaw",
+//     email: "felomae.anhaw@gmail.com"
+//   })
+//   console.log(`Create new user: ${newUser.id}`)
+// } catch (error) {
+//   console.log(error)
+// }
+// })
+
+// const getDataBtn = document.querySelector(".get-data")
+// getDataBtn.addEventListener("click", async () =>{
+//   const q = query(collection(db,"user"))
+//   const user = await getDocs(q)
+//   user.forEach((user) => {
+//     console.log(user.data())
+//   })
+// })
+</script>
